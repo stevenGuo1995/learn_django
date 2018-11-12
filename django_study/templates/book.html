@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>图书信息表</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .title {
+            width: 100%;
+            height: 100px;
+            background-color: yellowgreen;
+        }
+
+        .query > label {
+            float: left;
+            margin: 20px;
+        }
+
+        .query > input {
+            float: left;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="title" style="color:white;line-height:100px;font-size:40px;font-weight: bold;padding-left:30px;">
+    图书信息表
+</div>
+<div>
+
+    <form role="form" class="form-horizontal" action="/book" method="post">
+        <div class="form-group query">
+            <label style="width:auto;font-size: 22px;">图书编号:</label>
+            <input type="text" class="form-control" name="bookid" style="width:auto">
+            <input type="submit" class="form-control btn btn-primary" value="查询" style="width:auto">
+            <button type="button" class="form-control btn btn-primary" onclick="add_book()"
+                    style="width:auto;margin: 20px;">添加
+            </button>
+        </div>
+    </form>
+</div>
+<table class="table" id="table_id_example">
+    <thead>
+    <tr>
+        <th>图书编号</th>
+        <th>图书名称</th>
+        <th>图书类别</th>
+        <th>作者</th>
+        <th>出版社</th>
+        <th>价格</th>
+        <th>入库量</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for student in data %}
+        <tr>
+            <td>{{ student.0 }}</td>
+            <td>{{ student.1 }}</td>
+            <td>{{ student.2 }}</td>
+            <td><a href="/author/{{ student.3 }}/">{{ student.3 }}</a></td>
+            <td><a href="/press/{{ student.4 }}/">{{ student.4 }}</a></td>
+            <td>{{ student.5 }}</td>
+            <td>{{ student.6 }}</td>
+            <td>
+                <input type="button" class="btn btn-primary" id="view" value="查看">
+                <input type="button" class="btn btn-primary" id="modify" value="修改">
+                <input type="button" class="btn btn-primary" id="delete" value="删除">
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script>
+    $("#table_id_example tbody").on("click", "#view", function () {                //获取行
+        var row = $("table#table_id_example tr").index($(this).closest("tr"));                //获取某列（从0列开始计数）的值
+        var bookId = $("table#table_id_example").find("tr").eq(row).find("td").eq(0).text();
+        {#alert("点击的图书编号：" + bookId);#}
+        location.href = 'book_detail/' + bookId;
+
+    });
+    $("#table_id_example tbody").on("click", "#modify", function () {                //获取行
+        var row = $("table#table_id_example tr").index($(this).closest("tr"));                //获取某列（从0列开始计数）的值
+        var bookId = $("table#table_id_example").find("tr").eq(row).find("td").eq(0).text();
+        {#alert("点击的图书编号：" + bookId);#}
+        location.href = 'book_modify/' + bookId;
+    });
+    $("#table_id_example tbody").on("click", "#delete", function () {                //获取行
+        var row = $("table#table_id_example tr").index($(this).closest("tr"));                //获取某列（从0列开始计数）的值
+        var bookId = $("table#table_id_example").find("tr").eq(row).find("td").eq(0).text();
+        var bookname = $("table#table_id_example").find("tr").eq(row).find("td").eq(1).text();
+        var result = confirm("确定要删除【图书编号:" + bookId + " 图书名称：" + bookname + "】 信息吗？");
+        if (result) {
+            //提交
+            location.href = "/book_delete/" + bookId;
+        }
+    });
+
+    function add_book() {
+        location.href = '/book_add'
+    }
+</script>
+</body>
+</html>

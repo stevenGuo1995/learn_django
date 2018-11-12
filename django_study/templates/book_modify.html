@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>图书详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        div {
+            width: 1200px;
+            height: 100px;
+        }
+        .form-group{
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="title" style="color:black;line-height:100px;font-size:40px;font-weight: bold;padding-left:30px;">
+    图书信息表
+</div>
+<hr style="filter: progid:dximagetransform.microsoft.glow(color=black,strength=10)" width="100%" color="#987cb9" size=1>
+<div style="margin-left: 40% ; padding: 10px">
+    <form role="form" class="form-inline" method="post">
+        <div class="form-group">
+            图书编号:
+            <input type="text" id='bookid' class="form-control" value="{{ data.0 }}" name="book_id">
+        </div>
+        <div class="form-group">
+            图书名称:
+            <input type="text" id='bookid' class="form-control" value="{{ data.1 }}" name="book_name">
+        </div>
+        <div class="form-group">
+            图书类型:
+            <input type="text" id='bookid' class="form-control" value="{{ data.2 }}" name="book_type">
+        </div>
+        <div class="form-group">
+            图书作者:
+            <input type="text" id='bookid' class="form-control" value="{{ data.3 }}" name="book_author">
+        </div>
+        <div class="form-group">
+            图书价格:
+            <input type="text" id='bookid' class="form-control" value="{{ data.4 }}" name="book_price">
+        </div><div class="form-group">
+             出版社:
+            <input type="text" id='bookid' class="form-control" value="{{ data.5 }}" name="book_press">
+        </div><div class="form-group">
+            库存数量:
+            <input type="text" id='bookid' class="form-control"  value="{{ data.6 }}" name="book_num">
+        </div>
+        <input type="submit" class="form-control btn btn-primar" value="保存" style="margin-left: 10%">
+    </form>
+</div>
+</body>
+</html>

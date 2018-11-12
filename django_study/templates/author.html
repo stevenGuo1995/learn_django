@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>作者信息表</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .title {
+            width:100%;
+            height: 100px;
+            background-color:yellowgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="title" style="color:white;line-height:100px;font-size:40px;font-weight: bold;padding-left:30px;">
+        作者信息表
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>编号</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>城市</th>
+                <th>电话</th>
+                <th>邮箱</th>
+                <th>地址</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in data %}
+            <tr>
+                <td>{{ author.0}}</td>
+                <td>{{ author.1}}</td>
+                <td>{{ author.2 }}</td>
+                <td>{{ author.3 }}</td>
+                <td>{{ author.4 }}</td>
+                <td>{{ author.5 }}</td>
+                <td>{{ author.6 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,4 @@
+{
+  "views.py::test": true,
+  "views.py::testdb": true
+}

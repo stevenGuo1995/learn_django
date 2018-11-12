@@ -1,0 +1,150 @@
+<head>
+    <meta charset="utf-8">
+    <title>收银结算系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .container {
+            width: 100%;
+            height: 800px;
+            background-color: rgb(189, 189, 189);
+        }
+
+        .container > #body {
+            width: 80%;
+            color: white;
+            margin: auto;
+        }
+
+        .container > #body > #detail {
+
+            background-color: rgb(50, 90, 133);
+
+        }
+
+        .container > #body > #total {
+
+            background-color: rgb(250, 128, 46);
+
+        }
+    </style>
+</head>
+
+<body>
+<div class='container'>
+    <div style="padding-top: 20px">
+        <p class="text-center" style="color: rgb(30,30,30); font-weight: bold; font-size: 60px;
+         ">超市收银结算系统</p>
+    </div>
+    <h5 class="page-header"></h5>
+    <div class="row" style="color: rgb(30,30,30); width: 80%; margin: auto">
+        <div class="col-md-6"><p class="text-left">流水单号：{{ current_buy.serial_num }}</p></div>
+        <div class="col-md-6"><p class="text-right">welcome! {{ username }} | <a href="/shop/logout/">注销</a></p></div>
+    </div>
+    <div class="row" id="body">
+        <div class="col-md-8" id="detail" style="height: 464px;">
+            <table class="table" id="table_id_example" style="color: rgb(200,200,200);">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>商品编号</th>
+                    <th>商品名称</th>
+                    <th>单位</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>金额</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for current in current_buy.produce_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ current.product_id }}</td>
+                        <td>{{ current.product_name }}</td>
+                        <td>{{ current.product_unit }}</td>
+                        <td>{{ current.product_price }}</td>
+                        <td>{{ current.product_num }}</td>
+                        <td>{{ current.total_money }}</td>
+                        <td>
+                            <button id="delete" class="btn" style="color: rgb(20,20,20); height: 25px;font-size: 10px;
+                            text-align: center">
+                                删除
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4" id="total" style="color: rgb(240,240,240); height: 464px">
+            <div class="form-group" style="margin-top: 20px">
+                <label for="user">商品编号：</label>
+                <input type="text" class="form-control" id="product_id" name="product_id" placeholder="">
+            </div>
+            <hr>
+            <div class="form-group">
+                <label for="password">商品数量：</label>
+                <input type="text" class="form-control" value="{{ current_buy.total_num }}" id="product_num"
+                       name="product_num" disabled="disabled">
+            </div>
+            <div class="form-group">
+                <label for="password">总金额：</label>
+                <input type="text" class="form-control" value="{{ current_buy.total_price }}" id="total_price"
+                       name="total_price" disabled="disabled">
+            </div>
+            <div class="form-group">
+                <label for="password">实收金额：</label>
+                <input type="text" class="form-control" id="receive_money" name="receive_money">
+            </div>
+            <div class="form-group">
+                <label for="password">找零：</label>
+                <input type="text" class="form-control" value="0" id="return_money" name="return_money" disabled="disabled">
+            </div>
+            <div class="row" style="color: rgb(20,20,20); padding-left: 60px">
+
+                <div class="col-md-6">
+                    <button class="btn" style="background-color: rgb(220,220,220)">取消</button>
+                </div>
+                <div class="col-md-6">
+                    <button class="btn" style="background-color: rgb(220,220,220)">完成</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#product_id').on("keydown", function (event) {
+        var keyCode = event.keyCode || event.which;
+        if (keyCode == "13") {
+            //event.preventDefault();
+            var product_id = $("#product_id").val();
+
+            window.location.href = "/shop/cashier/add/?product_id=" + product_id;
+            {#alert('按了回车！商品编号为：'+input_str);#}
+        }
+    });
+    $('#receive_money').on("keydown", function (event) {
+        var keyCode = event.keyCode || event.which;
+        if (keyCode == "13") {
+            var receive_money = $("#receive_money").val();
+            var total_price = $("#total_price").val();
+            $('#return_money').val(receive_money - total_price);
+        }
+
+    });
+    $("#table_id_example tbody").on("click", "#delete", function () {                //获取行
+        var row = $("table#table_id_example tr").index($(this).closest("tr"));                //获取某列（从0列开始计数）的值
+        var product_num = $("table#table_id_example").find("tr").eq(row).find("td").eq(1).text();
+        var product_name = $("table#table_id_example").find("tr").eq(row).find("td").eq(2).text();
+        var result = confirm("确定要删除商品【 编号：" + product_num + " 名称：" + product_name + "】 吗？");
+        if (result) {
+            //提交
+            location.href = "/shop/cashier/delete/?product_id=" + product_num;
+        }
+    });
+</script>
+</body>
+</html>
